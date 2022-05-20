@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>家庭作業12</title>
+	<style>
+		h4 {
+		   color: brown;
+		}
+		div {
+		     color: blue;
+		     margin: 5px;
+		}
+		table {
+		    width: 40%;
+		    border-color: midnightblue;
+		    border-style:solid;
+		    border-collapse: collapse;
+		}
+		tr:nth-child(2n+1){
+		    background-color: #f1f1f1;
+		    text-align: left;
+		    border-color: midnightblue;
+		    border-style:solid;
+		}
+		td:nth-child(1){
+		    color: brown;
+		    text-align:left;
+		    border-color: midnightblue;
+		    border-style:solid;
+		}
+		td:nth-child(3){
+		    color: green;
+		    text-align:left;
+		    border-color: midnightblue;
+		    border-style:solid;
+	</style>
+</head>
+
+<body>
+<form id="form01">
+	姓名: <input type="text" name="name01" value="蔡孟軒"><br>
+	收件地址: <input type="text" name="address01" value="新北市中和區新生街16巷5弄4號4樓"><br>
+	電話: <input type="tel" name="tel01" value="0925666620"><br>
+	電子郵件: <input type="email" name="email01" value="melody8894@gmail.com"><br>
+	指定送貨日期: <input type="date" name="date01" ><br>
+	咖啡種類: <br><input type="checkbox" name="coffee" id="coffee01" value="衣索比亞豆(200g)400元">衣索比亞豆(200g)400元;
+	購買數量: <input type="number" name="number01"><br>
+	<input type="checkbox" name="coffee" id="coffee02" value="巴西豆(200g)500元">巴西豆(200g)500元;
+	購買數量: <input type="number" name="number02"><br>
+	<input type="checkbox" name="coffee" id="coffee03" value="藍山豆(200g)750元">藍山豆(200g)750元;
+	購買數量: <input type="number" name="number03"><br>
+	<input type="checkbox" name="coffee" id="coffee04" value="哥倫比亞豆(200g)800元">哥倫比亞豆(200g)800元;
+	購買數量: <input type="number" name="number04"><br>
+</form>
+<br>
+<button onclick="shoppingInfo()"><h4>結帳</h4></button>
+<div id="demo"></div>
+<script>
+    var text = "<h4>您的購物資訊如下:</h4>";
+    text += "<table>";
+    var coffee = function (coffeeType, coffeePrice, no){
+        this.Type = coffeeType;
+        this.Price = coffeePrice;
+        this.subTotal = function(no){
+            text += "<tr>"
+            text += "<td>" + "咖啡種類: " + "</td>" + "<td>" + this.Type + "</td>" + "<td>" + no + "單位<br>" + "</td>";
+            text += "</tr>"
+            text += "<tr>"
+            text += "<td>" + "價格小計: " + "</td>" + "<td>" + this.Price * no + "元" + "</td>" + "<td>" + "  " + "</td>";
+            text += "</tr>"
+        };
+    };
+    var coffee01 = new coffee("衣索比亞豆(200g)",400,0);
+    var coffee02 = new coffee("巴西豆(200g)",500,0);
+    var coffee03 = new coffee("藍山豆(200g)",750,0);
+    var coffee04 = new coffee("哥倫比亞豆(200g)",800,0);
+
+    function shoppingInfo() {
+        var x = document.getElementById("form01");
+        var item = "";
+        var price = 0;
+        var sumToPay = 0;
+        var i;
+        for (i = 0; i < 5; i++) {
+            switch (i) {
+                case 0:
+                    item = "姓名: ";
+                    break;
+                case 1:
+                    item = "收件地址: ";
+                    break;
+                case 2:
+                    item = "電話: ";
+                    break;
+                case 3:
+                    item = "電子郵件: ";
+                    break;
+                case 4:
+                    item = "指定送貨日期: ";
+                    break;
+            }
+            text += "<tr>"
+            text += "<td>" + item + "</td>" + "<td>" + x.elements[i].value + "<br>" + "</td>" + "<td>" + "  " + "</td>";
+            text += "</tr>"
+        }
+        for (i=5; i<=11; i++) {
+            if (x.elements[i].checked == true) {
+                switch(i){
+                    case 5: coffee01.no = x.elements[i+1].value;
+                            sumToPay += coffee01.Price * coffee01.no;
+                            coffee01.subTotal(coffee01.no);
+                            break;
+                    case 7: coffee02.no = x.elements[i+1].value;
+                            sumToPay += coffee02.Price * coffee02.no;
+                            coffee02.subTotal(coffee02.no);
+                            break;
+                    case 9: coffee03.no = x.elements[i+1].value;
+                            sumToPay += coffee03.Price * coffee03.no;
+                            coffee03.subTotal(coffee03.no);
+                            break;
+                    case 11: coffee04.no = x.elements[i+1].value;
+                            sumToPay += coffee04.Price * coffee04.no;
+                            coffee04.subTotal(coffee04.no);
+                            break;
+                }
+            }
+        }
+        text += "<tr>"
+        text += "<td>" + "<h4><b>" + "價格合計: " + "</h4></b>" + "</td>" + "<td>" + "<h4><b>" + sumToPay + "元<br>" + "</b></h4>"+ "</td>" + "<td>" + "  " + "</td>";
+        text += "</tr>"
+        document.getElementById("demo").innerHTML = text;
+        text += "</table>";
+    }
+</script>
+</body>
+</html>
